@@ -363,6 +363,3 @@ MigrationBackup/
 FodyWeavers.xsd
 /StoreFront.UI.MVC/appsettings.json
 
-# Prevent sensitive data from being pushed
-/appsettings.json
-/StoreFront.UI.MVC/appsettings.json
