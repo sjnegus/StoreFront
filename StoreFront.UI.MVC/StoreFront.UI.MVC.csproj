@@ -51,4 +51,8 @@
     <ProjectReference Include="..\StoreFront.DATA.EF\StoreFront.DATA.EF.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\_Archive\assets\" />
+  </ItemGroup>
+
 </Project>
