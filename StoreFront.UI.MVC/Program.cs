@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.CodeAnalysis.Options;
 using Microsoft.EntityFrameworkCore;
 using StoreFront.UI.MVC.Data;
+using StoreFront.DATA.EF.Models;
 using System.Data;
 
 namespace StoreFront.UI.MVC
@@ -14,11 +15,19 @@ namespace StoreFront.UI.MVC
 
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(connectionString));
+            builder.Services.AddDbContext<ApplicationDbContext>
+                (options => options.UseSqlServer(connectionString));
+
+            builder.Services.AddDbContext<StoreFrontContext>
+                (options => options.UseSqlServer(connectionString));
+
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options =>options.SignIn.RequireConfirmedAccount =true).AddRoles<IdentityRole>().AddRoleManager < RoleManager < IdentityRole >> ().AddEntityFrameworkStores < ApplicationDbContext > ();
+            builder.Services.AddDefaultIdentity<IdentityUser>
+                (options =>options.SignIn.RequireConfirmedAccount =true)
+                .AddRoles<IdentityRole>()
+                .AddRoleManager < RoleManager < IdentityRole >> ()
+                .AddEntityFrameworkStores < ApplicationDbContext > ();
 
             builder.Services.AddControllersWithViews();
 
