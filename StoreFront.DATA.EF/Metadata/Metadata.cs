@@ -55,8 +55,6 @@ namespace StoreFront.DATA.EF//.Metadata
         public string? Image { get; set; }
     }
 
-    // TODONE finish adding metadata. 
-
     public class ProductOrderMetadata
     {
         [Required]
@@ -79,6 +77,7 @@ namespace StoreFront.DATA.EF//.Metadata
 
     public class ProductStatusMetadata
     {
+        
         public string Status { get; set; } = null!;
     }
 
