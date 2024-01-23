@@ -70,34 +70,35 @@
 </div>
 
 <section class="product_section text-light m-5">
-    <table class="table">
-        <thead class="text-light">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.ProductName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Price)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Image)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Category)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Status)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Supplier)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr class="text-light">
+    <div class="rounded-3">
+        <table class="table table-primary">
+            <thead class="text-secondary">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProductName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Price)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Image)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Category)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Status)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Supplier)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr class="text-secondary">
                     <td>
                         @Html.DisplayFor(modelItem => item.ProductName)
                     </td>
@@ -105,7 +106,7 @@
                         @Html.DisplayFor(modelItem => item.Price)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Image)
+                        <img src="~/img/t_@item.Image" class="img-fluid"/>
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Category.CategoryName)
@@ -122,7 +123,8 @@
                         <a asp-action="Delete" asp-route-id="@item.ProductId" class="btn btn-sm btn-primary">Delete</a>
                     </td>
                 </tr>
-            }
-        </tbody>
-    </table>
+                }
+            </tbody>
+        </table>
+    </div>
 </section>

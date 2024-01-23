@@ -124,7 +124,7 @@ namespace StoreFront.UI.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,Price,StatusId,SupplierId,CategoryId,Image")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,Price,StatusId,SupplierId,CategoryId,Image,ImageFile")] Product product)
         {
             if (id != product.ProductId)
             {
@@ -141,7 +141,7 @@ namespace StoreFront.UI.MVC.Controllers
                 {
                     product.Image = Guid.NewGuid() + Path.GetExtension(product.ImageName);
                     string webRootPath = _webHostEnvironment.WebRootPath;
-                    string fullImagePath = webRootPath + "/images/";
+                    string fullImagePath = webRootPath + "/img/";
                     if (oldImageName != null && oldImageName != "noimage.png")
                     {
                         ImageUtility.Delete(fullImagePath, oldImageName);
