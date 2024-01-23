@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace StoreFront.DATA.EF.Models
 {
@@ -11,6 +12,7 @@ namespace StoreFront.DATA.EF.Models
         }
 
         public int ProductId { get; set; }
+        [Display(Name = "Product")]
         public string ProductName { get; set; } = null!;
         public decimal? Price { get; set; }
         public int? StatusId { get; set; }
