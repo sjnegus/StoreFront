@@ -12,9 +12,10 @@ namespace StoreFront.UI.MVC.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IConfiguration _config;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IConfiguration config)
         {
             _logger = logger;
+            _config = config;
         }
 
         public IActionResult Index()
@@ -72,6 +73,8 @@ namespace StoreFront.UI.MVC.Controllers
 
             using (var client = new SmtpClient())
             {
+                try
+                {
                 client.Connect(_config.GetValue<string>("Credentials:Email:Client"));
 
                 // Some ISPs may block the default SMTP port (25), so, if you encounter issues
@@ -90,14 +93,12 @@ namespace StoreFront.UI.MVC.Controllers
 
                     );
 
-                try
-                {
                     client.Send(mm);
                 }
                 catch (Exception ex)
                 {
                     ViewBag.ErrorMessage = $"There was an error processing your request. please" +
-                        $" try again later.<br />Error Message: {ex.StackTrace}";
+                        $" try again later.<br />Error Message: {ex.Message}";
 
                     return View(cvm);
 

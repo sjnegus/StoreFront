@@ -24,5 +24,6 @@ namespace StoreFront.DATA.EF.Models
         public virtual ProductStatus? Status { get; set; }
         public virtual Supplier? Supplier { get; set; }
         public virtual ICollection<ProductOrder> ProductOrders { get; set; }
+
     }
 }

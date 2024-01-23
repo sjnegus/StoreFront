@@ -3,7 +3,12 @@
 @{
     ViewData["Title"] = "Contact";
 }
-
+@if (ViewBag.ErrorMessage != null)
+{
+    <p>
+        @ViewBag.ErrorMessage;
+    </p>
+}
 
 <main class="flex-shrink-0">
     <section class="py-5">

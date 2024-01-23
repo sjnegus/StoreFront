@@ -1,24 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StoreFront.DATA.EF.Models;
+using StoreFront.UI.MVC.Utilities;
 
 namespace StoreFront.UI.MVC.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class ProductsController : Controller
     {
         private readonly StoreFrontContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ProductsController(StoreFrontContext context)
+        public ProductsController(StoreFrontContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // GET: Products
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var storeFrontContext = _context.Products.Include(p => p.Category).Include(p => p.Status).Include(p => p.Supplier);
@@ -26,6 +34,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: Products/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Products == null)
@@ -47,6 +56,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: Products/Create
+        [Authorize(Roles ="Admin")]
         public IActionResult Create()
         {
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
@@ -56,14 +66,30 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // POST: Products/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,ProductName,Price,StatusId,SupplierId,CategoryId,Image")] Product product)
+        public async Task<IActionResult> Create([Bind("ProductId,ProductName,Price,StatusId,SupplierId,CategoryId,Image,ImageFile")] Product product)
         {
             if (ModelState.IsValid)
             {
+                if (product.ImageFile != null && product.ImageFile.Length < 4_194_303)
+                {
+
+                    product.Image = Guid.NewGuid() + Path.GetExtension(product.ImageName);
+
+                    string webRootPath = _webHostEnvironment.WebRootPath;
+                    string fullImagePath = webRootPath + "/img/";
+                    using var memoryStream = new MemoryStream();
+                    await product.ImageFile.CopyToAsync(memoryStream);
+                    using Image img = Image.FromStream(memoryStream);
+                    int maxImageSize = 500; // in pixels
+                    int maxThumbSize = 100;
+                    ImageUtility.ResizeImage(fullImagePath, product.Image, img, maxImageSize, maxThumbSize);
+                }
+                else
+                {
+                    product.Image = "noimage.png";
+                }
                 _context.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -107,6 +133,33 @@ namespace StoreFront.UI.MVC.Controllers
 
             if (ModelState.IsValid)
             {
+
+                #region File Upload - EDIT
+                string? oldImageName = product.Image;
+
+                if (product.ImageFile != null && product.ImageFile.Length < 4_194_303)
+                {
+                    product.Image = Guid.NewGuid() + Path.GetExtension(product.ImageName);
+                    string webRootPath = _webHostEnvironment.WebRootPath;
+                    string fullImagePath = webRootPath + "/images/";
+                    if (oldImageName != null && oldImageName != "noimage.png")
+                    {
+                        ImageUtility.Delete(fullImagePath, oldImageName);
+                    }
+                    using var memoryStream = new MemoryStream();
+                    await product.ImageFile.CopyToAsync(memoryStream);
+                    using Image img = Image.FromStream(memoryStream); 
+                    int maxImageSize = 500;
+                    int maxThumbSize = 100;
+                    ImageUtility.ResizeImage(fullImagePath, product.Image, img, maxImageSize, maxThumbSize);
+                }
+                else
+                {
+                    product.Image = "noimage.png";
+                }
+                #endregion
+
+
                 try
                 {
                     _context.Update(product);

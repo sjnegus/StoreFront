@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
-namespace StoreFront.DATA.EF//.Metadata
+namespace StoreFront.DATA.EF.Models//.Metadata
 {
     public class CategoryMetadata
     {

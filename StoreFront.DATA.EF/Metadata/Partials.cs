@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace StoreFront.DATA.EF//.Metadata
+namespace StoreFront.DATA.EF.Models//.Metadata
 {
     //internal class Partials
     //{
@@ -17,7 +20,16 @@ namespace StoreFront.DATA.EF//.Metadata
     public partial class Order { }
     //
     [ModelMetadataType(typeof(ProductMetadata))]
-    public partial class Product { }
+    public partial class Product 
+    {
+
+        [NotMapped]
+        public IFormFile? ImageFile { get; set; }
+
+        [NotMapped]
+        [FileExtensions(Extensions = "png,jpeg,jpg,gif", ErrorMessage = ".png, .jpeg, .jpg, .gif")]
+        public string? ImageName => ImageFile?.FileName;
+    }
     //
     [ModelMetadataType(typeof(ProductOrderMetadata))]
     public partial class ProductOrder { }
