@@ -27,10 +27,29 @@ namespace StoreFront.UI.MVC.Controllers
 
         // GET: Products
         [AllowAnonymous]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool? discontinued = false)
         {
-            var storeFrontContext = _context.Products.Include(p => p.Category).Include(p => p.Status).Include(p => p.Supplier);
-            return View(await storeFrontContext.ToListAsync());
+            //Potentially redirect customers to the tiled index:
+            if (!User.IsInRole("Admin"))
+            {
+                return RedirectToAction(nameof(TiledIndex));
+            }
+            var products = _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Supplier)
+                .Include(p => p.ProductOrders);
+            return View(await products.ToListAsync());
+        }
+
+
+        // GET: Products
+        [AllowAnonymous]
+        public async Task<IActionResult> TiledIndex()
+        {
+            var products = _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Supplier);
+            return View(await products.ToListAsync());
         }
 
         // GET: Products/Details/5

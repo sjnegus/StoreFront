@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\_Archive\assets\**" />
+    <Content Remove="wwwroot\_Archive\assets\**" />
+    <EmbeddedResource Remove="wwwroot\_Archive\assets\**" />
+    <None Remove="wwwroot\_Archive\assets\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Views\Shared\_OriginalLayout.cshtml" />
   </ItemGroup>
 
@@ -52,10 +59,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StoreFront.DATA.EF\StoreFront.DATA.EF.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\_Archive\assets\" />
   </ItemGroup>
 
 </Project>

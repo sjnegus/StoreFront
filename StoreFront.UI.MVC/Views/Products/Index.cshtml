@@ -61,11 +61,17 @@
 
 
 
-<div class="m-3">
-    <h1 class="text-light">Products</h1>
-
-    <p>
-        <a asp-action="Create" class="btn btn-primary">Create New</a>
+<div class="heading_container heading_center">
+    <h2>Shop <span>Products</span></h2>
+    <p align="center">
+        @if (User.IsInRole("Admin"))
+        {
+            <span>
+                <a asp-action="Create" class="btn btn-primary">Add New Product</a>
+                &nbsp;
+                <a asp-action="TiledIndex" class="btn btn-secondary">Tile View</a>
+            </span>
+        }
     </p>
 </div>
 
@@ -98,31 +104,35 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                <tr class="text-secondary">
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ProductName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Price)
-                    </td>
-                    <td>
-                        <img src="~/img/t_@item.Image" class="img-fluid"/>
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Category.CategoryName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Status.Status)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Supplier.MainContact)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.ProductId" class="btn btn-sm btn-primary">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.ProductId" class="btn btn-sm btn-primary">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.ProductId" class="btn btn-sm btn-primary">Delete</a>
-                    </td>
-                </tr>
+                    <tr class="text-secondary">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td>
+                            <img src="~/img/t_@item.Image" class="img-fluid" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Status.Status)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Supplier.MainContact)
+                        </td>
+                        @if (User.IsInRole("Admin"))
+                        {
+
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.ProductId" class="btn btn-sm btn-primary">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.ProductId" class="btn btn-sm btn-primary">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.ProductId" class="btn btn-sm btn-primary">Delete</a>
+                            </td>
+                        }
+                    </tr>
                 }
             </tbody>
         </table>
