@@ -1,0 +1,52 @@
+﻿@model IEnumerable<StoreFront.DATA.EF.Models.Product>
+@{
+    ViewData["Title"] = "Shop Products";
+}
+
+<section class="product_section layout_padding py-4">
+    <div class="container">
+        <div class="heading_container heading_center">
+            <h2>Shop <span>Products</span></h2>
+            <p align="center">
+                @if (User.IsInRole("Admin"))
+                {
+                    <span>
+                        <a asp-action="Create" class="btn btn-primary">Add New Product</a>
+                        &nbsp;
+                        <a asp-action="Index" class="btn btn-secondary">Table View</a>
+                    </span>
+                }
+            </p>
+        </div>
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="box h-100">
+                        <div class="option_container">
+                            <div class="options">
+                                <a asp-action="Details" asp-route-id="@item.ProductId" class="option1">
+                                    @item.ProductName
+                                </a>
+                                <a asp-action="AddToCart" asp-controller="ShoppingCart" asp-route-id="@item.ProductId" class="option2">
+                                    Add To Cart
+                                </a>
+                            </div>
+                        </div>
+                        <div class="img-box">
+                            <img src="~/img/@item.Image" alt="@item.ProductName">
+                        </div>
+                        <div class="detail-box">
+                            <h5>
+                                @item.ProductName
+                            </h5>
+                            <h6>
+                                @Html.DisplayFor(modelItem => item.Price)
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
