@@ -26,6 +26,27 @@ namespace StoreFront.DATA.EF.Models//.Metadata
         [Display(Name = "Order Date")]
         [DisplayFormat(DataFormatString = "{0:d}")]//MM/dd/yyyy
         public DateTime OrderDate { get; set; }
+
+        [StringLength(100)]
+        [Display(Name = "Recipient")]
+        [DisplayFormat(NullDisplayText = "Not Given")]
+        public string? ShipToName { get; set; }
+
+        [StringLength(50)]
+        [Display(Name = "City")]
+        [DisplayFormat(NullDisplayText = "Not Given")]
+        public string? ShipCity { get; set; }
+
+        [StringLength(2, MinimumLength = 2)]
+        [Display(Name = "State")]
+        [DisplayFormat(NullDisplayText = "Not Given")]
+        public string? ShipState { get; set; }
+
+        [DisplayFormat(NullDisplayText = "Not Given")]
+        [StringLength(5, MinimumLength = 5)]
+        [Display(Name = "Zip")]
+        [DataType(DataType.PostalCode)]
+        public string? ShipZip { get; set; }
     }
 
     public class ProductMetadata
@@ -35,7 +56,7 @@ namespace StoreFront.DATA.EF.Models//.Metadata
         [Required]
         public string ProductName { get; set; } = null!;
         //
-        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:c}")]
+        [DisplayFormat(DataFormatString = "{0:#.##}")]
         [DataType(DataType.Currency)]
         [Range(0, (double)decimal.MaxValue)]
         [Required]
@@ -115,6 +136,38 @@ namespace StoreFront.DATA.EF.Models//.Metadata
         [StringLength(5, MinimumLength = 5)]
         [DataType(DataType.PostalCode)]
         public string? Zip { get; set; }
+    }
+
+    public class UserDetailMetadata
+    {
+        public string UserId { get; set; } = null!;
+
+        [StringLength(50)]
+        [Display(Name = "First Name")]
+        [Required]
+        public string FirstName { get; set; } = null!;
+
+        [StringLength(50)]
+        [Display(Name = "Last Name")]
+        [Required]
+        public string LastName { get; set; } = null!;
+
+        [StringLength(150)]
+        public string? Address { get; set; }
+
+        [StringLength(50)]
+        public string? City { get; set; }
+
+        [StringLength(2)]
+        public string? State { get; set; }
+
+        [StringLength(5)]
+        [DataType(DataType.PostalCode)]
+        public string? Zip { get; set; }
+
+        [StringLength(24)]
+        [DataType(DataType.PhoneNumber)]
+        public string? Phone { get; set; }
     }
 
 }

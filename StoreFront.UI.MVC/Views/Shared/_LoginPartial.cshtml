@@ -9,9 +9,9 @@
         <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">userdeets</a>
     </li>
     <li class="nav-item px-lg-4">
-        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout"
-         asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="nav-link btn btn-link text-uppercase">Logout</button>
+        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout"
+              asp-route-returnUrl="@Url.Action("Index", "Home")">
+            <button type="submit" class="nav-link btn btn-link text-uppercase">Logout</button>
         </form>
     </li>
 }

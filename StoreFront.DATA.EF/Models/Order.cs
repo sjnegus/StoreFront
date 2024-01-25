@@ -14,6 +14,7 @@ namespace StoreFront.DATA.EF.Models
         public string UserId { get; set; } = null!;
         public DateTime OrderDate { get; set; }
 
+        public virtual UserDetail User { get; set; } = null!;
         public virtual ICollection<ProductOrder> ProductOrders { get; set; }
     }
 }

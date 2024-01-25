@@ -49,6 +49,9 @@ namespace StoreFront.UI.MVC.Controllers
             var products = _context.Products
                 .Include(p => p.Category)
                 .Include(p => p.Supplier);
+
+
+
             return View(await products.ToListAsync());
         }
 

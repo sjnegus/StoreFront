@@ -9,7 +9,7 @@
     <div class="container text-primary">
         <h2>Your <span>Cart</span></h2>
         <p align="center">
-            <a asp-action="TiledIndex" asp-controller="Products" class="btn btn-info text-light">Back to Shopping</a>
+            <a asp-action="TiledIndex" asp-controller="Products" class="btn btn-primary text-secondary">Back to Shopping</a>
         </p>
     </div>
     @if (ViewBag.Message != null)
@@ -36,12 +36,26 @@
                         <td><img src="~/img/t_@item.Product.Image" alt="@item.Product.ProductName" /></td>
                         <td>@Html.DisplayFor(x => item.Product.ProductName)</td>
                         <td>
-                            @Html.DisplayFor(x => item.Qty)
-                            <input type="button" value="Update Cart" class="btn btn-primary btn-sm" />
+                            <form asp-action="UpdateCart" method="post">
+                                <input type="hidden" name="id" value="@item.Product.ProductId" />
+
+                                <input type="number"
+                                       asp-for="@item.Qty"
+                                       name="Qty"
+                                       class="form-control mx-auto text-center mb-0"
+                                       min="0"
+                                       max="@short.MaxValue" />
+                                <button type="submit" class="btn btn-primary btn-block mt-0 btn-sm">Update Cart</button>
+                            </form>
                         </td>
                         <td>@Html.DisplayFor(x => item.Product.Price)</td>
                         <td>@($"{item.Product.Price * item.Qty:c}")</td>
-                        <th><button type="button" class="btn btn-danger">Remove From Cart</button></th>
+                        <th>
+                            <form asp-action="RemoveFromCart">
+                                <input type="hidden" name="id" value="@item.Product.ProductId" />
+                                <button type="submit" class="btn btn-danger">Remove From Cart</button>
+                            </form>
+                        </th>
                     </tr>
                 }
             </tbody>
@@ -52,7 +66,7 @@
             @if (User.Identity.IsAuthenticated)
             {
                 <p>
-                    <a href="javascript:void(0)" class="btn btn-primary">
+                    <a asp-action="Checkout" class="btn btn-primary">
                         Submit Order
                     </a>
                 </p>
@@ -62,7 +76,7 @@
                 <p>
                     To place this order, you must be logged in.
                 </p>
-                <a href="javascript:void(0)" disabled class="btn btn-primary">
+                <a asp-action="Checkout" disabled class="btn btn-primary">
                     Submit Order
                 </a>
             }
