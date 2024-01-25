@@ -52,6 +52,8 @@ namespace StoreFront.UI.MVC
                 app.UseHsts();
             }
 
+            app.UseStatusCodePagesWithRedirects("~/Errors/Status?id={0}");
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

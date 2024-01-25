@@ -39,4 +39,14 @@ namespace StoreFront.DATA.EF.Models//.Metadata
     //
     [ModelMetadataType(typeof(SupplierMetadata))]
     public partial class Supplier { }
+    //
+    [ModelMetadataType(typeof(UserDetailMetadata))]
+    public partial class UserDetail
+    {
+
+        [Display(Name = "Full Name")]
+        [NotMapped]
+        public string FullName => $"{FirstName} {LastName}";
+
+    }
 }
