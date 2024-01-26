@@ -53,7 +53,7 @@
                         <th>
                             <form asp-action="RemoveFromCart">
                                 <input type="hidden" name="id" value="@item.Product.ProductId" />
-                                <button type="submit" class="btn btn-danger">Remove From Cart</button>
+                                <button type="submit" class="btn btn-danger fa fa-trash"></button>
                             </form>
                         </th>
                     </tr>
@@ -66,7 +66,7 @@
             @if (User.Identity.IsAuthenticated)
             {
                 <p>
-                    <a asp-action="Checkout" class="btn btn-primary">
+                    <a asp-action="Checkout" asp-controller="ShoppingCart" class="btn btn-primary">
                         Submit Order
                     </a>
                 </p>

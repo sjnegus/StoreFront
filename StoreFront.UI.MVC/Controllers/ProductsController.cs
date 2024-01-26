@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StoreFront.DATA.EF.Models;
 using StoreFront.UI.MVC.Utilities;
+using System.Drawing;
+using X.PagedList;
 
 namespace StoreFront.UI.MVC.Controllers
 {
@@ -44,15 +46,33 @@ namespace StoreFront.UI.MVC.Controllers
 
         // GET: Products
         [AllowAnonymous]
-        public async Task<IActionResult> TiledIndex()
+        public async Task<IActionResult> TiledIndex(string? searchTerm, int categoryId =0, int page = 1)
         {
-            var products = _context.Products
+            var products =await _context.Products
                 .Include(p => p.Category)
-                .Include(p => p.Supplier);
+                .Include(p => p.Supplier).ToListAsync();
+            if (searchTerm != null)
+            {
+                ViewBag.SearchTerm = searchTerm;
+                searchTerm = searchTerm.ToLower();
 
+                products = products.Where(p => p.SearchString.ToLower().Contains(searchTerm)).ToList();
 
+                ViewBag.NbrResults = products.Count;
+            }
+            else { }
 
-            return View(await products.ToListAsync());
+            ViewBag.CategoryId = new SelectList(_context.Categories, "CategoryId", "CategoryName", categoryId);
+            if (categoryId != 0)
+            {
+                products = products.Where(p => p.CategoryId == categoryId).ToList();
+                ViewBag.NbrResults = products.Count;
+                var cat = await _context.Categories.FirstOrDefaultAsync(c=>c.CategoryId == categoryId);
+                ViewBag.CatName = cat?.CategoryName;
+                ViewBag.CatId = cat?.CategoryId;
+            }
+
+            return View(products.ToPagedList(page, 6));
         }
 
         // GET: Products/Details/5
