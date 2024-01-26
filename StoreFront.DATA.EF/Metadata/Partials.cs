@@ -22,6 +22,8 @@ namespace StoreFront.DATA.EF.Models//.Metadata
     [ModelMetadataType(typeof(ProductMetadata))]
     public partial class Product 
     {
+        [NotMapped]
+        public string SearchString => $"{ProductName} {Category?.CategoryName} {Supplier?.SupplierName}";
 
         [NotMapped]
         public IFormFile? ImageFile { get; set; }
