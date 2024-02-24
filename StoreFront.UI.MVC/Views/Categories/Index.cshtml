@@ -1,18 +1,25 @@
 ﻿@model IEnumerable<StoreFront.DATA.EF.Models.Category>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Categories";
 }
 
-<h1 class="text-light m-3">Categories</h1>
+<h1 class="text-primary m-3">@ViewBag.Title</h1>
 
 <p class="m-3">
     <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
-<table class="table m-5">
+
+<div class="row">
+    <div class="offset-md-3 col-md-6">
+        <div id="messageContent" class="text-center"
+    </div>
+</div>
+
+<table class="table m-5" id="categories Table">
     <thead>
         <tr>
-            <th class="text-light">
+            <th class="text-primary">
                 @Html.DisplayNameFor(model => model.CategoryName)
             </th>
             <th></th>
@@ -20,16 +27,30 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
-            <td class="text-light">
+        <tr id="category-@item.CategoryId">
+            <td class="text-primary">
                 @Html.DisplayFor(modelItem => item.CategoryName)
             </td>
             <td>
                     <a asp-action="Edit" asp-route-id="@item.CategoryId" class="btn btn-sm btn-primary">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.CategoryId" class="btn btn-sm btn-primary">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.CategoryId" class="btn btn-sm btn-primary">Delete</a>
+                    <a class="btn btn-sm btn-primary"
+                       data-ajax="true"
+                       data-ajax-confirm="Are you sure you want to delete  @item.CategoryName?"
+                       data-ajax-failure="deleteFailed"
+                       data-ajax-success="deleteConfirmed"
+                       data-ajax-method="POST"
+                       asp-action="Delete"
+                       asp-controller="Categories"
+                       asp-route-id="@item.CategoryId">Delete</a>
+
+                    @* <a asp-action="Delete" asp-route-id="@item.CategoryId" class="btn btn-sm btn-primary">Delete</a> *@
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+    @section Scripts {
+        <script src="~/js/categories.js"></script>
+    }

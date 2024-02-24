@@ -47,8 +47,9 @@
                         <span class="input-group-text">Upload</span>
                     </div>
                     <div class="custom-file">
-                        <input type="file" asp-for="ImageFile" class="custom-file-input" onchange="$('#file-label').text(this.files[0].name)" />
                         <label asp-for="ImageFile" class="custom-file-label" id="file-label">Choose File</label>
+                        <input type="file" asp-for="ImageFile" class="custom-file-input" onchange="$('#file-label').text(this.files[0].name)" />
+                        <input type ="hidden" asp-for="Image" />
                     </div>
                 </div>
                 <span asp-validation-for="ImageName" class="text-danger text-center"></span>

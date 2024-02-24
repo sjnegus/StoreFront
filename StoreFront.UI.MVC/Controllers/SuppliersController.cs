@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using StoreFront.DATA.EF.Models;
 
 namespace StoreFront.UI.MVC.Controllers
@@ -45,6 +46,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: Suppliers/Create
+        [Authorize(Roles="Admin")]
         public IActionResult Create()
         {
             return View();
@@ -54,6 +56,7 @@ namespace StoreFront.UI.MVC.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("SupplierId,SupplierName,MainContact,Phone,Address,City,State,Zip")] Supplier supplier)
         {
@@ -67,6 +70,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: Suppliers/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Suppliers == null)
@@ -86,6 +90,7 @@ namespace StoreFront.UI.MVC.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("SupplierId,SupplierName,MainContact,Phone,Address,City,State,Zip")] Supplier supplier)
         {
@@ -118,6 +123,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: Suppliers/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Suppliers == null)
@@ -137,6 +143,7 @@ namespace StoreFront.UI.MVC.Controllers
 
         // POST: Suppliers/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

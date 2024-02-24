@@ -117,42 +117,57 @@ namespace StoreFront.UI.MVC.Controllers
             return View(category);
         }
 
-        // GET: Categories/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [AcceptVerbs("POST")]
+        public JsonResult Delete(int id)
         {
-            if (id == null || _context.Categories == null)
-            {
-                return NotFound();
-            }
-
-            var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.CategoryId == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            return View(category);
+            var cat = _context.Categories.Find(id);
+            _context.Categories.Remove(cat);
+            _context.SaveChanges();
+            string message = $"Deleted the category \"{cat.CategoryName}\" from the database!";
+            return Json(new { id, message });
         }
 
-        // POST: Categories/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Categories == null)
-            {
-                return Problem("Entity set 'StoreFrontContext.Categories'  is null.");
-            }
-            var category = await _context.Categories.FindAsync(id);
-            if (category != null)
-            {
-                _context.Categories.Remove(category);
-            }
+        #region Original Delete 
+
+        
+        //// GET: Categories/Delete/5
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null || _context.Categories == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var category = await _context.Categories
+        //        .FirstOrDefaultAsync(m => m.CategoryId == id);
+        //    if (category == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(category);
+        //}
+
+        //// POST: Categories/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    if (_context.Categories == null)
+        //    {
+        //        return Problem("Entity set 'StoreFrontContext.Categories'  is null.");
+        //    }
+        //    var category = await _context.Categories.FindAsync(id);
+        //    if (category != null)
+        //    {
+        //        _context.Categories.Remove(category);
+        //    }
             
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
+
+        #endregion
 
         private bool CategoryExists(int id)
         {
